@@ -67,7 +67,7 @@ class OHEM_CELoss(nn.Module):
         return torch.mean(loss_hard)
 
 
-class AdaptFormerLoss(nn.Module):
+class BAFormerLoss(nn.Module):
 
     def __init__(self, ignore_index=255):
         super().__init__()
@@ -103,7 +103,7 @@ class AdaptFormerLoss(nn.Module):
             return loss
 
 
-class FTAdaptFormerLoss(nn.Module):
+class FTBAFormerLoss(nn.Module):
 
     def __init__(self, ignore_index=255):
         super().__init__()

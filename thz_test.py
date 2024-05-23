@@ -106,7 +106,7 @@ def main():
         results = []
         for input in tqdm(test_loader):
             # raw_prediction NxCxHxW
-            raw_predictions = model(input['img'].cuda(config.gpus[0]), 2)
+            raw_predictions = model(input['img'].cuda(config.gpus[0]))
 
             image_ids = input["img_id"]
             masks_true = input['gt_semantic_seg']

@@ -5,7 +5,7 @@ start_index=1
 end_index=2
 
 # 创建权重参数列表
-WEIGHTS=("adaptformer-init-r18-512-crop-ms-e105")  # 将起始权重参数添加到列表中
+WEIGHTS=("baformer")  # 将起始权重参数添加到列表中
 for ((i=start_index; i<=end_index; i++))
 do
     if ((i == 0)); then
@@ -25,7 +25,7 @@ total=${#WEIGHTS[@]}
 file_prefix=$(echo "$0" | awk -F '_' '{print $1}')
 
 # 创建保存测试精度信息的文件
-result_file="model_weights/vaihingen/adaptformer-init-r18-512-crop-ms-e105/${file_prefix}_test_results.txt"
+result_file="model_weights/vaihingen/baformer/${file_prefix}_test_results.txt"
 > $result_file
 
 echo "开始执行测试，共需测试 $total 个权重参数"
@@ -41,12 +41,12 @@ do
     index=$(( index + 1 ))
 
     # 更新权重参数
-    sed -i "s/test_weights_name = \".*\"/test_weights_name = \"$weight\"/g" ./config/vaihingen/adaptformer.py
+    sed -i "s/test_weights_name = \".*\"/test_weights_name = \"$weight\"/g" ./config/vaihingen/baformer.py
 
     # 执行测试命令，并将精度信息追加写入文件
     echo "执行测试，权重参数为: $weight.ckpt"
     echo "------------------------------------------------------"
-    result=$(python ./vaihingen_test.py -c ./config/vaihingen/adaptformer.py -o fig_results/vaihingen/diff/adaptformer --rgb -t 'd4')
+    result=$(python ./vaihingen_test.py -c ./config/vaihingen/baformer.py -o fig_results/vaihingen/diff/baformer --rgb -t 'd4')
     echo "权重参数为: $weight.ckpt" >> $result_file
     echo "$result" >> $result_file
     echo "" >> $result_file

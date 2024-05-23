@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # 读取图像
-img = cv2.imread('/home/wym/projects/AdaptFormer/vai.png', 0)
+img = cv2.imread('/BAFormer/vai.png', 0)
 
 # 进行二维傅里叶变换
 f = np.fft.fft2(img)

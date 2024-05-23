@@ -9,7 +9,7 @@
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/efficient-hybrid-transformer-learning-global/semantic-segmentation-on-loveda)](https://paperswithcode.com/sota/semantic-segmentation-on-loveda?p=efficient-hybrid-transformer-learning-global)
 
 - Pretrained Weights can be access from [Google Drive](https://drive.google.com/drive/folders/1ELpFKONJZbXmwB5WCXG7w42eHtrXzyPn?usp=sharing)
-- [adaptformer](https://www.sciencedirect.com/science/article/pii/S0924271622001654) (accepted by ISPRS, [PDF](https://www.researchgate.net/profile/Libo-Wang-17/publication/361736439_adaptformer_A_UNet-like_transformer_for_efficient_semantic_segmentation_of_remote_sensing_urban_scene_imagery/links/62c2a1ed1cbf3a1d12ac1c87/adaptformer-A-UNet-like-transformer-for-efficient-semantic-segmentation-of-remote-sensing-urban-scene-imagery.pdf)) and **UAVid dataset** are supported.
+- [baformer](https://www.sciencedirect.com/science/article/pii/S0924271622001654) (accepted by ISPRS, [PDF](https://www.researchgate.net/profile/Libo-Wang-17/publication/361736439_baformer_A_UNet-like_transformer_for_efficient_semantic_segmentation_of_remote_sensing_urban_scene_imagery/links/62c2a1ed1cbf3a1d12ac1c87/baformer-A-UNet-like-transformer-for-efficient-semantic-segmentation-of-remote-sensing-urban-scene-imagery.pdf)) and **UAVid dataset** are supported.
 - ISPRS Vaihingen and Potsdam datasets are supported. Since private sharing is not allowed, you need to download the datasets from the official website and split them by **Folder Structure**.
 - More network are updated and the link of pretrained weights is provided.
 - **config/loveda/dcswin.py** provides a detailed explain about **config** setting.
@@ -45,7 +45,7 @@ which mainly focuses on developing advanced Vision Transformers for remote sensi
 
 - Vision Transformer
 
-  - [adaptformer](https://authors.elsevier.com/a/1fIji3I9x1j9Fs) 
+  - [baformer](https://authors.elsevier.com/a/1fIji3I9x1j9Fs) 
   - [DC-Swin](https://ieeexplore.ieee.org/abstract/document/9681903)
   - [BANet](https://www.mdpi.com/2072-4292/13/16/3065)
   
@@ -284,15 +284,17 @@ python GeoSeg/tools/potsdam_patch_split.py \
 ```
 
 ---vaihingen
-python ./train_supervision.py -c ./config/vaihingen/adaptformer.py
-python ./train_supervision.py -c ./config/vaihingen/ftadaptformer.py
+python ./train_supervision.py -c ./config/vaihingen/baformer.py
+python ./train_supervision.py -c ./config/vaihingen/ftbaformer.py
 python ./train_supervision.py -c ./config/vaihingen/ftunetformer.py
 ---potsdam
-python ./train_supervision.py -c ./config/potsdam/adaptformer.py
+python ./train_supervision.py -c ./config/potsdam/baformer.py
 ---LoveDA
-python ./train_supervision.py -c ./config/loveda/adaptformer.py
+python ./train_supervision.py -c ./config/loveda/baformer.py
 ---mapcup
-python ./train_supervision.py -c ./config/mapcup/adaptformer.py
+python ./train_supervision.py -c ./config/mapcup/baformer.py
+---thz
+python ./train_supervision.py -c ./config/thz/baformer.py
 ```
 
 ## Testing
@@ -309,42 +311,43 @@ python ./train_supervision.py -c ./config/mapcup/adaptformer.py
 ```
 //dcswin
 python ./vaihingen_test.py -c ./config/vaihingen/dcswin.py -o fig_results/vaihingen/dcswin --rgb -t 'd4'
-//adaptformer
-python ./vaihingen_test.py -c ./config/vaihingen/adaptformer.py -o fig_results/vaihingen/diff/adaptformer --rgb -t 'd4'
-//ft+adaptformer
-python ./vaihingen_test.py -c ./config/vaihingen/ftadaptformer.py -o fig_results/vaihingen-ft/diff/ftadaptformer --rgb -t 'd4'
+//baformer
+python ./vaihingen_test.py -c ./config/vaihingen/baformer.py -o fig_results/vaihingen/diff/baformer --rgb -t 'd4'
+//ft+baformer
+python ./vaihingen_test.py -c ./config/vaihingen/ftbaformer.py -o fig_results/vaihingen-ft/diff/ftbaformer --rgb -t 'd4'
 ```
 
 **Potsdam**
 ```
 //dcswin
 python GeoSeg/potsdam_test.py -c GeoSeg/config/potsdam/dcswin.py -o fig_results/potsdam/dcswin --rgb -t 'lr'
-//adaptformer
-python ./potsdam_test.py -c ./config/potsdam/adaptformer.py -o fig_results/potsdam/diff/adaptformer --rgb -t 'lr'
+//baformer
+python ./potsdam_test.py -c ./config/potsdam/baformer.py -o fig_results/potsdam/diff/baformer --rgb -t 'lr'
 ```
 
 **LoveDA** ([Online Testing](https://codalab.lisn.upsaclay.fr/competitions/421))
 ```
-python ./loveda_test.py -c ./config/loveda/adaptformer.py -o fig_results/loveda/adaptformer -t 'd4'
+python ./loveda_test.py -c ./config/loveda/baformer.py -o fig_results/loveda/baformer -t 'd4'
 ```
 **Thz**
 ```
-python ./thz_test.py -c ./config/thz/adaptformer.py -o fig_results/thz/adaptformer --rgb -t 'lr'
-python ./thz_test.py -c ./config/thz/adaptformer_init.py -o fig_results/thz/adaptformer_init --rgb -t 'lr'
+python ./thz_test.py -c ./config/thz/baformer.py -o fig_results/thz/baformer --rgb -t 'lr'
+# infernce
+python ./thz_inference.py -c ./config/thz/baformer.py -o data/thz/predict/pre_baformer --rgb -t 'lr'
 ```
 **Mapcup**
 ```
-python ./mapcup_test.py -c ./config/mapcup/adaptformer.py -o fig_results/mapcup/adaptformer --rgb -t 'lr'
-python ./mapcup_test.py -c ./config/mapcup/adaptformer.py -o fig_results/mapcup/adaptformer --rgb -t 'd4'
+python ./mapcup_test.py -c ./config/mapcup/baformer.py -o fig_results/mapcup/baformer --rgb -t 'lr'
+python ./mapcup_test.py -c ./config/mapcup/baformer.py -o fig_results/mapcup/baformer --rgb -t 'd4'
 # infernce
-python ./mapcup_inference.py -c ./config/mapcup/adaptformer.py -o data/mapcup/predict/pre_adaptformer --rgb -t 'lr'
+python ./mapcup_inference.py -c ./config/mapcup/baformer.py -o data/mapcup/predict/pre_baformer --rgb -t 'lr'
 ```
 **UAVid** ([Online Testing](https://codalab.lisn.upsaclay.fr/competitions/7302))
 ```
 python ./inference_uavid.py \
 -i 'data/uavid/uavid_test' \
--c ./config/uavid/adaptformer.py \
--o fig_results/uavid/adaptformer_r18 \
+-c ./config/uavid/baformer.py \
+-o fig_results/uavid/baformer_r18 \
 -t 'lr' -ph 1152 -pw 1024 -b 2 -d "uavid"
 ```
 
@@ -352,8 +355,8 @@ python ./inference_uavid.py \
 ```
 python ./inference_huge_image.py \
 -i data/vaihingen/test_images \
--c ./config/vaihingen/adaptformer.py \
--o fig_results/vaihingen/adaptformer_huge \
+-c ./config/vaihingen/baformer.py \
+-o fig_results/vaihingen/baformer_huge \
 -t 'lr' -ph 512 -pw 512 -b 2 -d "pv"
 ```
 
@@ -365,13 +368,13 @@ python ./inference_huge_image.py \
 ## Reproduction Results
 |    Method     |  Dataset  |  F1   |  OA   |  mIoU | F1-me | OA-me | mIoU-me |       |
 |:-------------:|:---------:|:-----:|:-----:|------:|:-----:|:-----:|:-------:|:------|
-|  adaptformer   |   UAVid   |   -   |   -   | 67.63 |   -   |   -   |  67.33  |       |
-|  adaptformer   | Vaihingen | 90.30 | 91.10 | 82.54 | 90.37 | 91.05 |  82.63  | 0.819 |
-|  adaptformer   |  Potsdam  | 92.64 | 91.19 | 86.52 | 92.23 | 90.75 |  85.80  | 0.822 |
-|  adaptformer   |  LoveDA   |   -   |   -   | 52.97 |   -   |   -   |  52.01  |       |
-|  adaptformer   |    Thz    |   -   |   -   | 85.05 | 85.05 |       |         |       |
-| FT-adaptformer | Vaihingen | 91.17 | 91.74 | 83.98 |       |       |         |       |
-| FT-adaptformer |  Potsdam  | 93.22 | 91.87 | 87.50 |       |       |         |       |
+|  baformer   |   UAVid   |   -   |   -   | 67.63 |   -   |   -   |  67.33  |       |
+|  baformer   | Vaihingen | 90.30 | 91.10 | 82.54 | 90.37 | 91.05 |  82.63  | 0.819 |
+|  baformer   |  Potsdam  | 92.64 | 91.19 | 86.52 | 92.23 | 90.75 |  85.80  | 0.822 |
+|  baformer   |  LoveDA   |   -   |   -   | 52.97 |   -   |   -   |  52.01  |       |
+|  baformer   |    Thz    |   -   |   -   | 85.05 | 85.05 |       |         |       |
+| FT-baformer | Vaihingen | 91.17 | 91.74 | 83.98 |       |       |         |       |
+| FT-baformer |  Potsdam  | 93.22 | 91.87 | 87.50 |       |       |         |       |
 
 Due to some random operations in the training stage, reproduced results (run once) are slightly different from the reported in paper.
 
@@ -379,7 +382,7 @@ Due to some random operations in the training stage, reproduced results (run onc
 
 If you find this project useful in your research, please consider citing：
 
-- [adaptformer: A UNet-like transformer for efficient semantic segmentation of remote sensing urban scene imagery](https://authors.elsevier.com/a/1fIji3I9x1j9Fs)
+- [baformer: A UNet-like transformer for efficient semantic segmentation of remote sensing urban scene imagery](https://authors.elsevier.com/a/1fIji3I9x1j9Fs)
 - [A Novel Transformer Based Semantic Segmentation Scheme for Fine-Resolution Remote Sensing Images](https://ieeexplore.ieee.org/abstract/document/9681903) 
 - [Transformer Meets Convolution: A Bilateral Awareness Network for Semantic Segmentation of Very Fine Resolution Urban Scene Images](https://www.mdpi.com/2072-4292/13/16/3065)
 - [ABCNet: Attentive Bilateral Contextual Network for Efficient Semantic Segmentation of Fine-Resolution Remote Sensing Images](https://www.sciencedirect.com/science/article/pii/S0924271621002379)
