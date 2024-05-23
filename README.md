@@ -266,11 +266,6 @@ python ./inference_huge_image.py \
 -t 'lr' -ph 512 -pw 512 -b 2 -d "pv"
 ```
 
-<div>
-<img src="vai.png" width="30%"/>
-<img src="pot.png" width="35.5%"/>
-</div>
-
 ## Reproduction Results
 |  Method    |  Dataset  |  F1   |  OA   |  mIoU |
 |:----------:|:---------:|:-----:|:-----:|------:|
